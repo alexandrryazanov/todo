@@ -13,8 +13,8 @@ const ToDo = () => {
   return (
     <ToDoWrapper>
       <h1>ToDo List</h1>
-      {toDoListInit.map(({ id, text, completed }) => (
-        <Item {...{ key: id, id, text, completed }} />
+      {toDoListInit.map((item) => (
+        <Item {...item} key={item.id} />
       ))}
       <AddItem />
     </ToDoWrapper>

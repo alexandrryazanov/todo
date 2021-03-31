@@ -7,4 +7,5 @@ export const ToDoWrapper = styled.div`
   margin: 20px;
   box-shadow: 0 0 15px grey;
   padding: 15px;
+  overflow-y: auto;
 `;
