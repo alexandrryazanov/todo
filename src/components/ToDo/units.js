@@ -9,3 +9,9 @@ export const ToDoWrapper = styled.div`
   padding: 15px;
   overflow-y: auto;
 `;
+
+export const EmptyState = styled.div`
+  width: 100%;
+  color: grey;
+  font-size: 14px;
+`;

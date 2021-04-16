@@ -1,13 +1,36 @@
-import React from "react";
-import { Checkbox, ItemWrapper, Text } from "./units";
+import React, { useContext } from "react";
+import {
+  Checkbox,
+  ItemWrapper,
+  Text,
+  CheckBoxAndText,
+  DeleteButton,
+} from "./units";
+import { MyContext } from "../../../context";
+import { connect } from "react-redux";
 
-const Item = ({ id, text, completed, onClick }) => {
+const Item = ({ id, text, completed, onClick, onDelete, a, changeA }) => {
+  const colors = useContext(MyContext);
   return (
     <ItemWrapper>
-      <Checkbox checked={completed} onClick={() => onClick(id)} />
-      <Text through={completed}>{text}</Text>
+      <CheckBoxAndText>
+        <Checkbox
+          {...{ colors }}
+          checked={completed}
+          onClick={() => onClick(id)}
+        />
+        <Text through={completed}>{text + a}</Text>
+      </CheckBoxAndText>
+
+      <DeleteButton onClick={() => onDelete(id)}>Х</DeleteButton>
+      <button onClick={() => changeA(a + 1)}>Сменить A</button>
     </ItemWrapper>
   );
 };
 
-export default Item;
+const mapStateToProps = (state) => ({ a: state.a });
+const mapDispatchToProps = {
+  changeA: (newA) => ({ type: "CHANGE_A", payload: newA }),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Item);

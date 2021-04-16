@@ -7,6 +7,11 @@ export const ItemWrapper = styled.div`
   padding: 5px;
   margin: 5px;
   align-items: center;
+  justify-content: space-between;
+`;
+
+export const CheckBoxAndText = styled.div`
+  display: flex;
 `;
 
 export const Checkbox = styled.div`
@@ -24,11 +29,26 @@ export const Checkbox = styled.div`
     width: 11px;
     height: 11px;
     content: "";
-    background-color: ${({ checked }) => (checked ? "orange" : "white")};
+    background-color: ${({ checked, colors }) =>
+      checked ? colors.primary : "white"};
     border-radius: 100%;
   }
 `;
 
 export const Text = styled.div`
   text-decoration: ${({ through }) => (through ? "line-through" : "none")};
+`;
+
+export const DeleteButton = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    color: red;
+  }
+  &:active {
+    transform: translate(1px, 1px);
+  }
 `;
