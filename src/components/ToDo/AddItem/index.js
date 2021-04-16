@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { AddItemWrapper, ButtonAdd, Input } from "./units";
-import { MyContext } from "../../../context";
+import { useDispatch, useSelector } from "react-redux";
+import { changeA, squareB } from "../../../redux/actions/rootActions";
 
 const AddItem = ({ onAdd }) => {
   const [input, setInput] = useState("");

@@ -3,6 +3,12 @@ import { EmptyState, ToDoWrapper } from "./units";
 import Item from "./Item";
 import AddItem from "./AddItem";
 import { MyContext } from "../../context";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changeCompleted,
+  removeItem,
+  toggleCompleted,
+} from "../../redux/actions/rootActions";
 
 const toDoListInit = [
   { id: 1, text: "Купить слона", completed: true },
@@ -12,16 +18,14 @@ const toDoListInit = [
 
 const ToDo = () => {
   const colors = useContext(MyContext);
+  const list = useSelector((state) => state.todoList);
+  const dispatch = useDispatch();
 
-  const [list, setList] = useState(toDoListInit);
+  const [_, setList] = useState(toDoListInit);
   const [filter, setFilter] = useState("all");
 
   const itemClick = (id) => {
-    setList(
-      list.map((item) => {
-        return id !== item.id ? item : { ...item, completed: !item.completed };
-      })
-    );
+    dispatch(toggleCompleted(id));
   };
 
   const onAdd = (taskText) => {
@@ -31,7 +35,7 @@ const ToDo = () => {
   };
 
   const onDelete = (id) => {
-    setList(list.filter((item) => item.id !== id));
+    dispatch(removeItem(id));
   };
 
   const generateItems = list
