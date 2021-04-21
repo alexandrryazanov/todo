@@ -14,4 +14,5 @@ export const EmptyState = styled.div`
   width: 100%;
   color: grey;
   font-size: 14px;
+  margin: 20px 0;
 `;

@@ -15,8 +15,8 @@ const AddItem = ({ onAdd }) => {
       />
       <ButtonAdd
         onClick={() => {
-          onAdd(input);
           setInput("");
+          onAdd(input);
         }}
       >
         Добавить

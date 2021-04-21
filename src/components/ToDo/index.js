@@ -5,24 +5,25 @@ import AddItem from "./AddItem";
 import { MyContext } from "../../context";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addItem,
   changeCompleted,
+  fetchItems,
   removeItem,
   toggleCompleted,
 } from "../../redux/actions/rootActions";
-
-const toDoListInit = [
-  { id: 1, text: "Купить слона", completed: true },
-  { id: 2, text: "Научиться летать", completed: false },
-  { id: 3, text: "Сделать сальто", completed: true },
-];
+import Filters from "./Filters";
 
 const ToDo = () => {
-  const colors = useContext(MyContext);
-  const list = useSelector((state) => state.todoList);
+  const [colors] = useContext(MyContext);
+  const { list, filter } = useSelector((state) => ({
+    list: state.todoList,
+    filter: state.filter,
+  }));
   const dispatch = useDispatch();
 
-  const [_, setList] = useState(toDoListInit);
-  const [filter, setFilter] = useState("all");
+  useEffect(() => {
+    dispatch(fetchItems());
+  }, []);
 
   const itemClick = (id) => {
     dispatch(toggleCompleted(id));
@@ -30,15 +31,14 @@ const ToDo = () => {
 
   const onAdd = (taskText) => {
     if (taskText.length === 0) return;
-    const maxId = Math.max(...list.map((item) => item.id)) + 1;
-    setList([...list, { id: maxId, text: taskText, completed: false }]);
+    dispatch(addItem(taskText));
   };
 
   const onDelete = (id) => {
     dispatch(removeItem(id));
   };
 
-  const generateItems = list
+  const generatedItems = list
     .filter((item) => {
       if (filter === "completed") return item.completed;
       if (filter === "uncompleted") return !item.completed;
@@ -52,29 +52,9 @@ const ToDo = () => {
     <>
       <ToDoWrapper>
         <h1>ToDo List</h1>
-        <div>
-          Фильтр:&nbsp;
-          <button
-            onClick={() => setFilter("uncompleted")}
-            style={{ color: "black" }}
-          >
-            X
-          </button>
-          <button
-            onClick={() => setFilter("completed")}
-            style={{ color: "black" }}
-          >
-            V
-          </button>
-          <button
-            onClick={() => setFilter("all")}
-            style={{ color: colors.primary }}
-          >
-            Все
-          </button>
-        </div>
+        <Filters {...{ colors }} />
         {list.length > 0 ? (
-          generateItems
+          generatedItems
         ) : (
           <EmptyState>Пока задач нет</EmptyState>
         )}

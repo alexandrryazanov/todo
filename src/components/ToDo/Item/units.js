@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 export const ItemWrapper = styled.div`
   display: flex;
   height: 20px;
+  width: 270px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-wrap: nowrap;
   border-bottom: 1px solid grey;
   padding: 5px;
   margin: 5px;

@@ -9,7 +9,7 @@ import {
 import { MyContext } from "../../../context";
 
 const Item = ({ id, text, completed, onClick, onDelete }) => {
-  const colors = useContext(MyContext);
+  const [colors] = useContext(MyContext);
   return (
     <ItemWrapper>
       <CheckBoxAndText>
