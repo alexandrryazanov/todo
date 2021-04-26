@@ -4,10 +4,12 @@ import Item from "./Item";
 import AddItem from "./AddItem";
 import { MyContext } from "../../context";
 import { useDispatch, useSelector } from "react-redux";
+import { CircularProgress } from "@material-ui/core";
 import {
   addItem,
   changeCompleted,
   fetchItems,
+  loadItems,
   removeItem,
   toggleCompleted,
 } from "../../redux/actions/rootActions";
@@ -15,14 +17,17 @@ import Filters from "./Filters";
 
 const ToDo = () => {
   const [colors] = useContext(MyContext);
-  const { list, filter } = useSelector((state) => ({
+  const { list, filter, isLoading } = useSelector((state) => ({
     list: state.todoList,
     filter: state.filter,
+    isLoading: state.isLoading,
   }));
   const dispatch = useDispatch();
 
+  console.log("isLoading", isLoading);
+
   useEffect(() => {
-    dispatch(fetchItems());
+    dispatch(loadItems());
   }, []);
 
   const itemClick = (id) => {
@@ -52,13 +57,19 @@ const ToDo = () => {
     <>
       <ToDoWrapper>
         <h1>ToDo List</h1>
-        <Filters {...{ colors }} />
-        {list.length > 0 ? (
-          generatedItems
+        {isLoading ? (
+          <CircularProgress className={"loader"} />
         ) : (
-          <EmptyState>Пока задач нет</EmptyState>
+          <>
+            <Filters {...{ colors }} />
+            {list.length > 0 ? (
+              generatedItems
+            ) : (
+              <EmptyState>Пока задач нет</EmptyState>
+            )}
+            <AddItem onAdd={onAdd} />
+          </>
         )}
-        <AddItem onAdd={onAdd} />
       </ToDoWrapper>
     </>
   );

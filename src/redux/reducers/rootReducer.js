@@ -8,19 +8,22 @@ import {
   ADD_ITEM,
   CHANGE_FILTER,
   INIT_ITEMS,
+  LOADING,
   REMOVE_ITEM,
   TOGGLE_COMPLETED,
 } from "../types";
 const initialState = {
-  todoList: [
-    { id: 1, text: "Купить слона", completed: true },
-    { id: 2, text: "Научиться летать", completed: false },
-    { id: 3, text: "Сделать сальто", completed: true },
-  ],
+  todoList: [],
   filter: "all",
+  isLoading: false,
 };
 
 export const rootReducer = (state = initialState, action) => {
+  if (action.type === LOADING)
+    return {
+      ...state,
+      isLoading: action.value,
+    };
   if (action.type === TOGGLE_COMPLETED)
     return {
       ...state,
@@ -45,16 +48,20 @@ export const rootReducer = (state = initialState, action) => {
       ],
     };
   }
-
   if (action.type === CHANGE_FILTER) {
     return {
       ...state,
       filter: action.value,
     };
   }
-
   if (action.type === INIT_ITEMS) {
-    return { ...state, todoList: action.items };
+    return {
+      ...state,
+      todoList: action.items.map(({ title, ...rest }) => ({
+        text: title,
+        ...rest,
+      })),
+    };
   }
 
   return state;

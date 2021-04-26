@@ -8,6 +8,7 @@ export const ToDoWrapper = styled.div`
   box-shadow: 0 0 15px grey;
   padding: 15px;
   overflow-y: auto;
+  position: relative;
 `;
 
 export const EmptyState = styled.div`
